@@ -37,6 +37,28 @@ fs模块写入日志
               // 创建logger
                var logger = new console.Console(stdout, stderr);
 
+jade模板中（forEach循环的时候如果个别股票返回的数组这个字段没有，导致报错）而终止运行，导致后续股票无法自动生成研报，解决办法在jade模板中
+
+      -try{
+          if(product)
+              div.md_stock
+                  div.hd
+                      span #{product.companySimpleName}
+                          em (#{stockCode})
+                          b
+                  div.bd
+                      dl.dl_t4
+                          dt 主　　营：
+                          dd !{product.mainBusiness}
+                      dl.dl_t4
+                          dt 概念题材：
+                          dd #{entries}
+                      dl.dl_t4
+                          dt 研报摘要：
+                          dd #{abstract}
+      -}catch(err){
+          -console.log(err)
+      -}
 
 接口/robot/semantic//semantic-api-service/api/qa?
 
