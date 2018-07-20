@@ -1,0 +1,113 @@
+// Create by xym on 20180712
+    7 资金流向
+
+div.md.md_floFunds
+    div.hd
+        div.mh_title
+            h3 资金流向
+            h4 Flow of funds
+            b
+        div.mh_option
+            i
+    div.bd
+        // 循环
+        if(flowFund)
+            - var itemIndex = [1, 5, 10, 30]
+            each item in itemIndex
+                div.box_bordBlue
+                    h3 近
+                        span #{item}
+                        | 日资金流向
+                    ul.box_bg
+                        li
+                            p 主力流入
+                            h3= flowFund[item].majorFlowIn
+                                | 万
+                        li
+                            p 主力净流
+                            h3= flowFund[item].majorFlowIn - flowFund[item].majorFlowOut
+                                | 万
+                        li
+                            p 主力流出
+                            h3= flowFund[item].majorFlowOut
+                                | 万
+                    div.box_contrast
+                        h5 总汇
+                        - var totalBuy = flowFund[item].smallOrderBuy + flowFund[item].mediumOrderBuy + flowFund[item].bigOrderBuy + flowFund[item].hugeOrderBuy
+                        - var totalSell = flowFund[item].smallOrderSell + flowFund[item].mediumOrderSell + flowFund[item].bigOrderSell + flowFund[item].hugeOrderSell
+                        - var totalNum = totalBuy + totalSell
+                        - var totalHuge = flowFund[item].hugeOrderBuy + flowFund[item].hugeOrderSell;
+                        - var totalSmall = flowFund[item].smallOrderBuy + flowFund[item].smallOrderSell;
+                        - var totalMedium = flowFund[item].mediumOrderBuy + flowFund[item].mediumOrderSell;
+                        - var totalBig = flowFund[item].bigOrderBuy + flowFund[item].bigOrderSell;
+                        ul
+                            li #{totalBuy}万
+                            li
+                                div.bar
+                                    - var flag = totalBuy / totalNum * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li
+                                div.bar
+                                    - var flag = totalSell / totalNum * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li #{totalSell}万
+                        h5 超大
+                        ul
+                            li #{flowFund[item].hugeOrderBuy}万
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].hugeOrderBuy / totalHuge * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].hugeOrderSell / totalHuge * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li #{flowFund[item].hugeOrderSell}万
+                        h5 大单
+                        ul
+                            li #{flowFund[item].bigOrderBuy}万
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].bigOrderBuy / totalBig * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].bigOrderSell / totalBig * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li #{flowFund[item].bigOrderSell}万
+                        h5 中单
+                        ul
+                            li #{flowFund[item].mediumOrderBuy}万
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].mediumOrderBuy / totalMedium * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].hugeOrderSell / totalMedium * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li #{flowFund[item].hugeOrderSell}万
+                        h5 小单
+                        ul
+                            li #{flowFund[item].smallOrderBuy}万
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].smallOrderBuy / totalSmall * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li
+                                div.bar
+                                    - var flag =  flowFund[item].smallOrderSell / totalSmall * 100
+                                    i(style="width: #{flag}%;")
+                                        b
+                            li #{flowFund[item].smallOrderSell}万
+
+

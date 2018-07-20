@@ -1,0 +1,55 @@
+// Create by lj on 20180711
+    10 风险信息
+div.md.md_riskProfile
+    div.hd
+        div.mh_title
+            h3 风险信息
+            h4 Risk profile
+            b
+        div.mh_option
+            i
+    if(riskNotices)
+        div.hd
+            p= riskNotices.ratingDesc
+            h3 风险公告
+            div.box_time
+                //此处用循环
+                if(riskNotices.riskNotices)
+                    each item in riskNotices.riskNotices
+                        dl
+                            b
+                            dt
+                                b
+                                i
+                            dd
+                                p= item.noticeType
+                                h5= getNowFormatDate(item.pubAt)
+                                div.box_bg
+                                    p.pdf(onClick="gotoPdf('"+item.annUrl+"')")= item.annTitle
+                                    //h6 狼牙月 伊人憔悴，我举杯 饮尽了风雪，是谁打翻前世柜 惹尘埃是非，缘字诀 几番轮回，你锁眉 哭红颜唤不回，纵然青史已经成灰。我爱不灭 繁华如三千东流水，我只取一瓢爱了解 只恋你化身的蝶，你发如雪 凄美了离别。我焚香感动了谁，邀明月 让回忆皎洁，爱在月光下完美，你发如雪 纷飞了眼泪，我等待苍老了谁，红尘醉 微醺的岁月。
+
+
+-function getNowFormatDate(time,symbol) {
+    -var date;
+    -if(time){
+        -date = new Date(time)
+    -}else{
+        -date = new Date();
+    -}
+    -var year = date.getFullYear();
+    -var month = date.getMonth() + 1;
+    -var strDate = date.getDate();
+    -if (month >= 1 && month <= 9) {
+        -month = "0" + month;
+    -}
+    -if (strDate >= 0 && strDate <= 9) {
+        -strDate = "0" + strDate;
+    -}
+    -symbol?symbol:symbol='-';
+    -var currentdate = year + symbol + month + symbol + strDate;
+    -return currentdate;
+-}
+script(language='JavaScript').
+    function gotoPdf(annUrl){
+        window.open(annUrl);
+    }

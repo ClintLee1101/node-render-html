@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    title 研报
+    link(rel="stylesheet", href='../public/stylesheets/resReport.css')
+  body
+    block header
+      include ./abstract
+      include ./executive
+      include ./incentive
+      include ./financialAnalysis
+      include ./capStructure
+      include ./flowFund
+      include ./valRating
+      include ./techAnalysis
+      include ./riskInfo
+
+script(type="text/javascript", src="../public/javascripts/jquery-1.11.2.min.js")
+script(type="text/javascript", src="../public/javascripts/highstock.src.js")
+script(type="text/javascript", src="../public/javascripts/chart/xdy.js")
+//股东人数变化
+script(type="text/javascript", src="../public/javascripts/chart/jShareholderChart.js")
+//技术分析
+script(type="text/javascript", src="../public/javascripts/chart/jStockAnalysis.js")

@@ -1,0 +1,30 @@
+//
+   Created by lijian on 2018/7/11.
+   5 财务分析
+
+div.md.md_finAnalysis
+    div.hd
+        div.mh_title
+            h3 财务分析
+            h4 Financial analysis
+            b
+        div.mh_option
+            i
+    div.bd
+        //p 苏奥传感在同行业内盈利
+        //    span  强劲
+        //    |，成长
+        //    span 较快
+        //    |，运营能力
+        //    span 一般
+        //    |，但债务风险
+        //    span j较高
+        if(financialAnalysis)
+            p= financialAnalysis[0].conclusion
+        each item  in financialNewData
+            div.tlBox
+                each a in item
+                    ul
+                        each b in a.list
+                            li= b
+

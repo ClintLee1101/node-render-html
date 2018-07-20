@@ -1,0 +1,24 @@
+// 1 首页
+
+div.logo
+    i
+    div.date
+        b
+        - var time = new Date()
+        span= "生成日期："+time.getFullYear() + '-' + (time.getMonth() + 1) + '-' + time.getDate()
+if(product)
+    div.md_stock
+        div.hd
+            span #{product.companySimpleName}
+                em (#{stockCode})
+                b
+        div.bd
+            dl.dl_t4
+                dt 主　　营：
+                dd !{product.mainBusiness}
+            dl.dl_t4
+                dt 概念题材：
+                dd #{entries}
+            dl.dl_t4
+                dt 研报摘要：
+                dd #{abstract}

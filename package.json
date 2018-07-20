@@ -1,0 +1,25 @@
+{
+  "name": "node-render-html",
+  "version": "1.0.0",
+  "description": "使用node+jade批量生成html文件",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./bin",
+    "test": "test"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "http-errors": "~1.6.2",
+    "jade": "~1.11.0",
+    "jquery": "^3.3.1",
+    "morgan": "~1.9.0"
+  },
+  "keywords": [
+    "node",
+    "jade",
+    "html"
+  ],
+  "author": "rhjx",
+  "license": "ISC"
+}

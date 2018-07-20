@@ -1,0 +1,154 @@
+// Create by xym on 20180713
+    6 股本结构
+div.md.md_capStructure
+    div.hd
+        div.mh_title
+            h3 股本结构
+            h4 Capital structure
+            b
+        div.mh_option
+            i
+    div.bd
+    if(capStructure)
+        - var shareStructure = capStructure.shareStru ? capStructure.shareStru : {};
+        - var shareholderAmountList = capStructure.amount.shareholderAmountList;
+        - var lastHolder = shareholderAmountList.length > 0 ? shareholderAmountList[0] : {};
+        - var calendarList = capStructure.calendarList;
+        - var latestCalendar = calendarList.length > 0 ? calendarList[0] : {};
+
+        p 股东人数近期数量
+            span #{getStrAmount(lastHolder)}
+            - if (calendarList.length > 0)
+                | ；#{getListDateText(latestCalendar)}将解禁
+                span= formatNumber(latestCalendar.listAmount * 10e3, 2, false)
+                | 股，占总股本的
+                span #{(latestCalendar.listAmount / shareStructure.totShare * 100).toFixed(2)}%
+
+        div.tlBox.tlBox_total
+            ol
+                li 总股本
+                li 流通股本
+                li 企业性质
+                li 股东人数
+            ul
+                li #{fixed2(shareStructure.totShare / 10e3)}亿股
+
+                li #{fixed2(shareStructure.floatShare / 10e3)}亿股
+
+                li= shareStructure.comType ? shareStructure.comType : '--'
+
+                li #{lastHolder.shldAmount ? lastHolder.shldAmount : '--'}户，较上期#{lastHolder.chanOfLast > 0 ? "增加" : "减少"}#{lastHolder.chanOfLast ? Math.abs(lastHolder.chanOfLast).toFixed(2) : ''}%
+
+        h3 股东人数变化
+        div.tBox_between
+            span 单位：户
+            span 单位：元
+        // 图表插入到这儿
+        div.chart#shareholderChart
+        div.chart_note
+            span
+                b
+                em 股东人数
+                b
+                em 股价
+        - if (calendarList.length > 0)
+            h3 限售股解禁
+            div.box_time.box_time_single
+                // 循环
+                each  item in  calendarList
+                    dl
+                        b
+                        dt
+                            b
+                            i
+                        dd
+                            div.box_bg
+                                span #{generateDate(item.listDate)}
+                                span 将解禁#{formatNumber(item.listAmount * 10e3, '', false)}万股
+
+        h3 十大股东
+            div.tlBox.tlBox_top10
+                ol
+                    li 股东
+                    li 占比
+                    li 变动（万股）
+                // 循环股东
+                each item in capStructure.ten.tenShareholderList
+                    ul
+                        li= item.shldName
+                        li= item.hldPercent + '%'
+                        li= (item.chanOfLast === 0 ? '未变' : (item.chanOfLast / 10e3).toFixed(2))
+
+        h3 十大流通股东
+        div.tlBox.tlBox_top10
+            ol
+                li 股东
+                li 占比
+                li 变动（万股）
+            // 循环股东
+            each item in capStructure.ten.tenFloatShareholderSList
+                ul
+                    li= item.shldName
+                    li= item.hldPercent + '%'
+                    li= (item.chanOfLast === 0 ? '未变' : (item.chanOfLast / 10e3).toFixed(2))
+
+
+
+
+- function getListDateText(latestCalendar){
+- var listDateText
+- if(latestCalendar.listDate){
+-   var listDate = latestCalendar.listDate.toString();
+-   if(listDate.length === 8){
+-       listDateText = listDate.substr(0, 4) + '-' + listDate.substr(4, 2) + '-' + listDate.substr(6, 2);
+-   }else {listDateText = '--' }
+- }
+- return listDateText
+-}
+
+-function getStrAmount(lastHolder){
+- var strAmount = '';
+- if (!lastHolder) {
+-      strAmount = '';
+- }else if (lastHolder.chanOfLast > 10){
+-      strAmount = '增加';
+- }else if (lastHolder.chanOfLast < -10){
+-      strAmount = '减少';
+- }else{strAmount = '稳定';}
+- return strAmount
+-}
+
+-function generateDate(date) {
+    -var temp = date;
+    -if (date) {
+        -date = date.toString();
+        -if (date.length === 8){
+            -temp = date.substr(0, 4) + '-' + date.substr(4, 2) + '-' + date.substr(6, 2);}
+    -}else{
+       -temp = '--';}
+    -return date ? temp : '--';
+-}
+
+
+-function formatNumber(value, precision, fixSmallNumber) {
+    -if (!isNaN(value)) {
+        -if(precision === undefined || precision === '' || precision === null)
+            -precision = 2;
+        -if(fixSmallNumber === undefined)
+            -fixSmallNumber = true;
+
+        -if (value < 10e3)
+            -return fixSmallNumber ? value.toFixed(precision) : value;
+        -else if (value < 10e7)
+            -return (value / 10e3).toFixed(precision) + '万';
+        -else
+            -return (value / 10e7).toFixed(precision) + '亿';
+    -}else {
+        -return value || '--';
+    -}
+-}
+
+-function fixed2(num) {
+    -return (!isNaN(num) && num !== '') ? num.toFixed(2) : '--';
+-}
+

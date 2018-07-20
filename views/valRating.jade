@@ -1,0 +1,88 @@
+// Create by xym on 20180712
+    8 估值评级
+div.md.md_valRating
+    div.hd
+        div.mh_title
+            h3 估值评级
+            h4 Valuation rating
+            b
+        div.mh_option
+            i
+    div.bd
+        h3 机构评级
+        if(organRating)
+            - var data = organRating.ratingResult
+            - var stockNum = data.stockNum
+            - var stockLevel = ''
+            - if (stockNum !== 0) {
+            -   var stockPercent = (data.ranking / stockNum).toFixed(2);
+            -   if (stockPercent <= 0.3) {
+            -       stockLevel = '机构关注度较高'
+            -   } else if (stockPercent > 0.3 && stockPercent <= 0.7) {
+            -       stockLevel = '机构关注度一般'
+            -   } else if (stockPercent > 0.7) {
+            -       stockLevel = '机构关注度较低'
+            -   }
+            - }
+            - if(data.ratingTotal == 0){
+            -   stockLevel = '该股暂无机构关注'
+            - }
+            p 近半年有#{data.ratingTotal}篇研报，#{stockLevel}
+            div.box_columnar
+                div.col_img
+                    - var array = organRating.ratingResult.list
+                    - var arr = []
+                    - for (var j = 0; j < array.length; j++) {
+                    -   arr.push(array[j].ratingNum)
+                    - }
+                    - var arrMax = Math.max.apply(null, arr)
+                    - if (arrMax <= 0) {
+                    -    arrMax = 1
+                    - }
+                    each item in arr
+                        - var percentage = (item / arrMax * 100).toFixed(2)
+                        - if (percentage < 5) {
+                        -    percentage = 5
+                        - }
+                        ul.columnar
+                            li
+                                div.txt(style="bottom: #{percentage}%;") #{item}
+                                div.bar(style="height: #{percentage}%;")
+
+                div.col_note
+                    - var obj = ['买入', '增持', '中性', '减持', '卖出']
+                    - for (var key in obj)
+                        div.txt= obj[key]
+            if organRating.reportList
+                h3 研报精选
+                div
+                    // 循环并判断
+                        标签分五种：
+                        1. 买入，i标签加样式名：mr
+                        2. 增持，i标签加样式名：zc
+                        3. 中性，i标签加样式名：zx
+                        4. 减持，i标签加样式名：jc
+                        5. 卖出，i标签加样式名：mc
+
+                    each reportItem in organRating.reportList.list
+
+                        div.box_bg
+                            div.note
+                                div
+                                    if reportItem.ratingName
+                                        if reportItem.ratingName.indexOf('买入') >= 0
+                                            b.mr 买入
+                                        else if reportItem.ratingName.indexOf('增持') >= 0
+                                            b.zc 增持
+                                        else if reportItem.ratingName.indexOf('中性') >= 0
+                                            b.zx 中性
+                                        else if reportItem.ratingName.indexOf('减持') >= 0
+                                            b.jc 减持
+                                        else if reportItem.ratingName.indexOf('卖出') >= 0
+                                            b.mc 卖出
+                                    | #{reportItem.organization}/#{reportItem.author}
+                                - var time = new Date(reportItem.publishAt)
+                                div= time.getFullYear()+ '.'+(time.getMonth()+1)+'.' + time.getDate()
+                            h6= reportItem.analyseResults[symbol.slice(2)+'估值评级']
+
+

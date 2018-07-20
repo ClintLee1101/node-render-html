@@ -1,0 +1,44 @@
+//
+   Created by lijian on 2018/7/11.
+
+div.md.md_equIncentive
+    div.hd
+        div.mh_title
+            h3 股权激励
+            h4 Equity incentive
+            b
+        div.mh_option
+            i
+    div.bd
+        if(incentive)
+            //一年内展示
+            if (incentive[0].pubDateTimestamp&&(new Date().getTime()-incentive[0].pubDateTimestamp)<365*24*60*60*1000)
+                p
+                    - var time = new Date(incentive[0].pubDateTimestamp)
+                    span= time.getFullYear() + '.' + (time.getMonth() + 1) + '.' + time.getDate()
+                    | 公布限制性股票的
+                    span 激励措施
+                    | ，占当时总股本比例的
+                    span=Number(incentive[0].incTotsharePercent).toFixed(2) + '%'
+                    | ，近一年内公司业绩可能会有
+                    span 较大提升
+            div.box_time
+                each item in incentive
+                    dl
+                        b
+                        dt
+                            b
+                            i
+                        dd
+                            p 公布股权激励方案，激励方式为
+                                span= item.incSubjectFilter
+                            h5= item.pubDateTime
+                            div.box_bg
+                                ul
+                                    li 授予日起：#{item.incBeginTime}
+                                    li 激励总数：#{item.incAmountFilter}
+                                    li 占股本比例：#{item.percent}
+                                ul
+                                    li 激励进度：#{item.progress}
+                                    li 激励资金来源：#{item.comeFrom}
+                                    li

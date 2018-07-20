@@ -1,0 +1,53 @@
+// 2 高管简介
+
+div.md.md_keyExecutives
+    div.hd
+        div.mh_title
+            h3 高管简介
+            h4 Key Executives
+            b
+        div.mh_option
+            i
+    div.bd
+        div.tlBox
+            ol
+                li 姓名
+                li 职位
+                li 持股占比
+                li 股权质押情况
+                li 简介
+            if(executive)
+                each item in executive
+                    ul
+                        li= item.managerName
+                        li= item.post
+                        li= addPerForMin(item.hldAmount,item.hldPercent)
+                        li= ifNone(item.pledgeStype) + formatNumber(item.totalPledgeSamount) + (item.pledgeStype ? '股' : '')
+                        li= item.resume
+
+-function addPerForMin(hldAmount,hldPercent) {
+    -return hldAmount ? (hldPercent?(hldPercent>=0.01?hldPercent.toFixed(2) + "%":'<0.01%'):'<0.01%') : '--';
+-}
+-function ifNone(val){
+-return val?val:'';
+-}
+-function formatNumber(value, precision, fixSmallNumber) {
+    -if (!isNaN(value)) {
+        -if(precision === undefined || precision === '' || precision === null)
+            -precision = 2;
+        -if(fixSmallNumber === undefined)
+            -fixSmallNumber = true;
+
+        -if (value < 10e3)
+            -return fixSmallNumber ? value.toFixed(precision) : value;
+        -else if (value < 10e7)
+            -return (value / 10e3).toFixed(precision) + '万';
+        -else
+            -return (value / 10e7).toFixed(precision) + '亿';
+    -}else {
+        -return value || '--';
+    -}
+-}
+
+
+
